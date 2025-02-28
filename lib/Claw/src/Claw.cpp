@@ -1,8 +1,8 @@
-#include "Claw.hpp"
 
+#include "Claw.hpp"
 static const uint32_t SERVO_FREQUENCY = 50;
 
-Claw::Claw(int servo_pin, int min_pulse, int max_pulse) : pin(servo_pin), min_pulsewidth(min_pulse), max_pulsewidth(max_pulse), clawTaskHandle(nullptr)
+Claw::Claw(int servo_pin, int min_pulse, int max_pulse) : pin(servo_pin), min_pulsewidth(min_pulse), max_pulsewidth(max_pulse)
 {
     ledc_timer_config_t timer_conf = {
         .speed_mode = LEDC_LOW_SPEED_MODE,
@@ -19,7 +19,7 @@ Claw::Claw(int servo_pin, int min_pulse, int max_pulse) : pin(servo_pin), min_pu
         .duty = 0};
     ledc_channel_config(&channel_conf);
 
-    xTaskCreate(taskFunction, "claw_task", 2048, this, 5, &clawTaskHandle);
+    xTaskCreate(&taskFunction, "claw_task", 2048, this, 5, NULL);
 }
 
 void Claw::move(int angle)
@@ -44,6 +44,17 @@ void Claw::close()
     move(135);
 }
 
+void Claw::open_close_for_2_seconds(void *pvParameters)
+{
+    while (true)
+    {
+        open();
+        vTaskDelay(pdMS_TO_TICKS(2000));
+
+        close();
+        vTaskDelay(pdMS_TO_TICKS(2000));
+    }
+}
 void Claw::taskFunction(void *pvParameters)
 {
     Claw *clawInstance = static_cast<Claw *>(pvParameters);

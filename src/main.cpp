@@ -4,7 +4,7 @@
 #include "driver/ledc.h"
 
 #include "esp_err.h"
-//#include "Claw.h"
+#include "Claw.hpp"
 
 #define SERVO_GPIO 13
 #define SERVO_MIN_PULSEWIDTH 500
@@ -13,7 +13,7 @@
 
 uint32_t angle_to_pulsewidth(int angle)
 {
-    return SERVO_MIN_PULSEWIDTH + ( angle *(SERVO_MAX_PULSEWIDTH - SERVO_MIN_PULSEWIDTH)) / 180;
+    return SERVO_MIN_PULSEWIDTH + (angle * (SERVO_MAX_PULSEWIDTH - SERVO_MIN_PULSEWIDTH)) / 180;
 }
 
 void move_servo(int angle)
@@ -26,7 +26,8 @@ void move_servo(int angle)
 
 void servo_task(void *pvParameters)
 {
-    while (true) {
+    while (true)
+    {
         move_servo(0);
         vTaskDelay(pdMS_TO_TICKS(2000));
 
@@ -35,16 +36,15 @@ void servo_task(void *pvParameters)
     }
 }
 
-void app_main()
+extern "C" void app_main()
 {
-    //Claw claw(13);
+    // Claw claw(13);
 
     ledc_timer_config_t timer_conf = {
         .speed_mode = LEDC_LOW_SPEED_MODE,
         .duty_resolution = LEDC_TIMER_16_BIT,
         .timer_num = LEDC_TIMER_0,
-        .freq_hz = SERVO_FREQUENCY
-    };
+        .freq_hz = SERVO_FREQUENCY};
     ledc_timer_config(&timer_conf);
 
     ledc_channel_config_t channel_conf = {
@@ -52,8 +52,7 @@ void app_main()
         .speed_mode = LEDC_LOW_SPEED_MODE,
         .channel = LEDC_CHANNEL_0,
         .timer_sel = LEDC_TIMER_0,
-        .duty = 0
-    };
+        .duty = 0};
     ledc_channel_config(&channel_conf);
 
     xTaskCreate(&servo_task, "servo_task", 2048, NULL, 5, NULL);
