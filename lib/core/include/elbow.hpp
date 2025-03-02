@@ -6,7 +6,7 @@
 
 namespace oswaldo
 {
-  class claw
+  class elbow
   {
     private:
       ledc_channel_t channel;
@@ -14,13 +14,13 @@ namespace oswaldo
       int pin;
 
     public:
-      claw(ledc_channel_t ch, ledc_timer_t tmr, int p);
+      elbow(ledc_channel_t ch, ledc_timer_t tmr, int p);
 
-      void open();
-      void close();
-      void half_open();
+      void up();
+      void down();
+      void half_up();
       void start_task();
-      static void stepped_open_close_claw(void *params);
+      static void stepped_up_down_elbow(void *params);
   };
 };
 

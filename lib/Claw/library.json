@@ -1,9 +1,0 @@
-{
-    "name": "Claw",
-    "version": "1.0.0",
-    "description": "Library to control the robotic arm claw",
-    "authors": ["roqueando"],
-    "dependencies": [],
-    "frameworks": [],
-    "license": "MIT"
-}

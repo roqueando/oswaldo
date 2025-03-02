@@ -1,7 +1,7 @@
 {
-    "name": "Claw",
+    "name": "core",
     "version": "1.0.0",
-    "description": "Library to control the robotic arm claw",
+    "description": "Library to control the robotic arm",
     "authors": ["roqueando"],
     "dependencies": [],
     "frameworks": [],
