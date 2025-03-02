@@ -16,19 +16,35 @@ oswaldo::elbow::elbow(ledc_channel_t ch, ledc_timer_t tmr, int p) : channel(ch),
     ledc_channel_config(&channel_conf);
 }
 
+void oswaldo::elbow::slowly_up()
+{
+    for (int i = 0; i < 100; i++) {
+        move(i, channel, ELB_TOTAL_ANGLE);
+        vTaskDelay(pdMS_TO_TICKS(1000));
+    }
+}
+
+void oswaldo::elbow::slowly_down()
+{
+    for (int i = 100; i > 0; i--) {
+        move(i, channel, ELB_TOTAL_ANGLE);
+        vTaskDelay(pdMS_TO_TICKS(1000));
+    }
+}
+
 void oswaldo::elbow::up()
 {
-    move(100, channel, TOTAL_ANGLE);
+    move(100, channel, ELB_TOTAL_ANGLE);
 }
 
 void oswaldo::elbow::half_up()
 {
-    move(50, channel, TOTAL_ANGLE);
+    move(50, channel, ELB_TOTAL_ANGLE);
 }
 
 void oswaldo::elbow::down()
 {
-    move(0, channel, TOTAL_ANGLE);
+    move(0, channel, ELB_TOTAL_ANGLE);
 }
 
 
@@ -38,13 +54,10 @@ void oswaldo::elbow::stepped_up_down_elbow(void* params)
 
     while (true)
     {
-        instance->up();
+        instance->slowly_up();
         vTaskDelay(pdMS_TO_TICKS(2000));
 
-        instance->half_up();
-        vTaskDelay(pdMS_TO_TICKS(2000));
-
-        instance->down();
+        instance->slowly_down();
         vTaskDelay(pdMS_TO_TICKS(2000));
     }
 }

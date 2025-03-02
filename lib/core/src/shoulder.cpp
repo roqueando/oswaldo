@@ -20,7 +20,7 @@ oswaldo::shoulder::shoulder(ledc_channel_t ch, ledc_timer_t tmr, int p) : channe
 void oswaldo::shoulder::slowly_front()
 {
     for (int i = 0; i < 100; i++) {
-        move(i, channel, TOTAL_ANGLE);
+        move(i, channel, SHO_TOTAL_ANGLE);
         vTaskDelay(pdMS_TO_TICKS(1000));
     }
 }
@@ -28,7 +28,7 @@ void oswaldo::shoulder::slowly_front()
 void oswaldo::shoulder::slowly_back()
 {
     for (int i = 100; i > 0; i--) {
-        move(i, channel, TOTAL_ANGLE);
+        move(i, channel, SHO_TOTAL_ANGLE);
         vTaskDelay(pdMS_TO_TICKS(1000));
     }
 }
@@ -36,17 +36,17 @@ void oswaldo::shoulder::slowly_back()
 
 void oswaldo::shoulder::front()
 {
-    move(100, channel, TOTAL_ANGLE);
+    move(100, channel, SHO_TOTAL_ANGLE);
 }
 
 void oswaldo::shoulder::half_front()
 {
-    move(90, channel, TOTAL_ANGLE);
+    move(90, channel, SHO_TOTAL_ANGLE);
 }
 
 void oswaldo::shoulder::back()
 {
-    move(0, channel, TOTAL_ANGLE);
+    move(0, channel, SHO_TOTAL_ANGLE);
 }
 
 
@@ -56,9 +56,10 @@ void oswaldo::shoulder::stepped_front_back_shoulder(void* params)
 
     while (true)
     {
+        instance->slowly_back();
         vTaskDelay(pdMS_TO_TICKS(2000));
 
-        instance->slowly_back();
+        instance->slowly_front();
         vTaskDelay(pdMS_TO_TICKS(2000));
     }
 }

@@ -4,7 +4,7 @@
 #include "freertos/task.h"
 #include "driver/ledc.h"
 
-#define TOTAL_ANGLE 180
+#define SHO_TOTAL_ANGLE 180
 
 namespace oswaldo
 {

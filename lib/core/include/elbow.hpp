@@ -4,7 +4,7 @@
 #include "freertos/task.h"
 #include "driver/ledc.h"
 
-#define TOTAL_ANGLE 80
+#define ELB_TOTAL_ANGLE 80
 
 namespace oswaldo
 {
@@ -18,6 +18,8 @@ namespace oswaldo
     public:
       elbow(ledc_channel_t ch, ledc_timer_t tmr, int p);
 
+      void slowly_up();
+      void slowly_down();
       void up();
       void down();
       void half_up();
