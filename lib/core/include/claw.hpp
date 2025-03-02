@@ -4,6 +4,8 @@
 #include "freertos/task.h"
 #include "driver/ledc.h"
 
+#define TOTAL_ANGLE 180
+
 namespace oswaldo
 {
   class claw

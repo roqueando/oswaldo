@@ -9,4 +9,4 @@
 
 void oswaldo_init();
 uint32_t angle_to_pulsewidth(int angle);
-void move(int percent, ledc_channel_t channel);
+void move(int percent, ledc_channel_t channel, int total_angle);

@@ -4,6 +4,8 @@
 #include "freertos/task.h"
 #include "driver/ledc.h"
 
+#define TOTAL_ANGLE 180
+
 namespace oswaldo
 {
   class shoulder
@@ -16,6 +18,8 @@ namespace oswaldo
     public:
       shoulder(ledc_channel_t ch, ledc_timer_t tmr, int p);
 
+      void slowly_front();
+      void slowly_back();
       void front();
       void back();
       void half_front();

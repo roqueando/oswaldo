@@ -4,6 +4,7 @@
 #include "freertos/task.h"
 #include "driver/ledc.h"
 
+
 oswaldo::shoulder::shoulder(ledc_channel_t ch, ledc_timer_t tmr, int p) : channel(ch), timer(tmr), pin(p)
 {
     ledc_channel_config_t channel_conf = {
@@ -16,19 +17,36 @@ oswaldo::shoulder::shoulder(ledc_channel_t ch, ledc_timer_t tmr, int p) : channe
     ledc_channel_config(&channel_conf);
 }
 
+void oswaldo::shoulder::slowly_front()
+{
+    for (int i = 0; i < 100; i++) {
+        move(i, channel, TOTAL_ANGLE);
+        vTaskDelay(pdMS_TO_TICKS(1000));
+    }
+}
+
+void oswaldo::shoulder::slowly_back()
+{
+    for (int i = 100; i > 0; i--) {
+        move(i, channel, TOTAL_ANGLE);
+        vTaskDelay(pdMS_TO_TICKS(1000));
+    }
+}
+
+
 void oswaldo::shoulder::front()
 {
-    move(30, channel);
+    move(100, channel, TOTAL_ANGLE);
 }
 
 void oswaldo::shoulder::half_front()
 {
-    move(40, channel);
+    move(90, channel, TOTAL_ANGLE);
 }
 
 void oswaldo::shoulder::back()
 {
-    move(30, channel);
+    move(0, channel, TOTAL_ANGLE);
 }
 
 
@@ -38,10 +56,9 @@ void oswaldo::shoulder::stepped_front_back_shoulder(void* params)
 
     while (true)
     {
-        instance->front();
         vTaskDelay(pdMS_TO_TICKS(2000));
 
-        instance->half_front();
+        instance->slowly_back();
         vTaskDelay(pdMS_TO_TICKS(2000));
     }
 }

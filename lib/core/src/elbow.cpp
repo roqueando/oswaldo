@@ -18,17 +18,17 @@ oswaldo::elbow::elbow(ledc_channel_t ch, ledc_timer_t tmr, int p) : channel(ch),
 
 void oswaldo::elbow::up()
 {
-    move(5, channel);
+    move(100, channel, TOTAL_ANGLE);
 }
 
 void oswaldo::elbow::half_up()
 {
-    move(15, channel);
+    move(50, channel, TOTAL_ANGLE);
 }
 
 void oswaldo::elbow::down()
 {
-    move(10, channel);
+    move(0, channel, TOTAL_ANGLE);
 }
 
 

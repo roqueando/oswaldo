@@ -18,17 +18,17 @@ oswaldo::claw::claw(ledc_channel_t ch, ledc_timer_t tmr, int p) : channel(ch), t
 
 void oswaldo::claw::open()
 {
-    move(100, channel);
+    move(100, channel, TOTAL_ANGLE);
 }
 
 void oswaldo::claw::half_open()
 {
-    move(50, channel);
+    move(50, channel, TOTAL_ANGLE);
 }
 
 void oswaldo::claw::close()
 {
-    move(0, channel);
+    move(0, channel, TOTAL_ANGLE);
 }
 
 
