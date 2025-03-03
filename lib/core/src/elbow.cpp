@@ -38,10 +38,10 @@ void oswaldo::elbow::to_up_task(void *params)
 {
     oswaldo::elbow *instance = static_cast<oswaldo::elbow *>(params);
 
-    for (int i = 50; i <= 100; i++)
+    for (int i = 0; i <= 100; i++)
     {
         move(i, instance->channel, ELB_TOTAL_ANGLE);
-        vTaskDelay(pdMS_TO_TICKS(50));
+        vTaskDelay(pdMS_TO_TICKS(30));
     }
 
     vTaskDelete(NULL);
@@ -51,10 +51,10 @@ void oswaldo::elbow::to_down_task(void *params)
 {
     oswaldo::elbow *instance = static_cast<oswaldo::elbow *>(params);
 
-    for (int i = 50; i >= 0; i--)
+    for (int i = 100; i >= 0; i--)
     {
         move(i, instance->channel, ELB_TOTAL_ANGLE);
-        vTaskDelay(pdMS_TO_TICKS(50));
+        vTaskDelay(pdMS_TO_TICKS(30));
     }
 
     vTaskDelete(NULL);

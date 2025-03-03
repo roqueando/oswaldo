@@ -15,6 +15,9 @@ namespace oswaldo
     ledc_timer_t timer;
     int pin;
 
+    static void to_right_task(void *params);
+    static void to_left_task(void *params);
+
   public:
     base(ledc_channel_t ch, ledc_timer_t tmr, int p);
 

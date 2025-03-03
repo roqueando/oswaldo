@@ -18,22 +18,36 @@ oswaldo::base::base(ledc_channel_t ch, ledc_timer_t tmr, int p) : channel(ch), t
     move(50, channel, TOTAL_ANGLE);
 }
 
-void oswaldo::base::to_right()
+void oswaldo::base::to_right_task(void *params)
 {
+    oswaldo::base *instance = static_cast<oswaldo::base *>(params);
     for (int i = 50; i <= 100; i++)
     {
-        move(i, channel, TOTAL_ANGLE);
+        move(i, instance->channel, TOTAL_ANGLE);
         vTaskDelay(DEFAULT_WAIT);
     }
 }
 
-void oswaldo::base::to_left()
+void oswaldo::base::to_right()
 {
+    xTaskCreate(to_right_task, "To Right Task", 1024, this, 1, NULL);
+}
+
+void oswaldo::base::to_left_task(void *params)
+{
+
+    oswaldo::base *instance = static_cast<oswaldo::base *>(params);
     for (int i = 50; i >= 0; i--)
     {
-        move(i, channel, TOTAL_ANGLE);
+        move(i, instance->channel, TOTAL_ANGLE);
         vTaskDelay(DEFAULT_WAIT);
     }
+    vTaskDelete(NULL);
+}
+
+void oswaldo::base::to_left()
+{
+    xTaskCreate(to_left_task, "To Left Task", 1024, this, 3, NULL);
 }
 
 void oswaldo::base::from_left()

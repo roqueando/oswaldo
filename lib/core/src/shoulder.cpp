@@ -54,7 +54,7 @@ void oswaldo::shoulder::to_back_task(void *params)
     for (int i = 50; i >= 0; i--)
     {
         move(i, instance->channel, SHO_TOTAL_ANGLE);
-        vTaskDelay(pdMS_TO_TICKS(50));
+        vTaskDelay(pdMS_TO_TICKS(30));
     }
 
     vTaskDelete(NULL);

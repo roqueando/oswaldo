@@ -17,13 +17,16 @@ void oswaldo::pickup_garbage::run()
 void oswaldo::pickup_garbage::task_pickup_garbage(void *params)
 {
     oswaldo::pickup_garbage *instance = static_cast<oswaldo::pickup_garbage *>(params);
-    instance->bas.to_left();
+    // instance->bas.to_left();
+    instance->clw.open();
+    //   instance->sho.to_back();
+    //  instance->elb.to_down();
     vTaskDelay(pdMS_TO_TICKS(2000));
-    instance->bas.from_left();
-    vTaskDelay(pdMS_TO_TICKS(2000));
-    instance->bas.to_right();
-    vTaskDelay(pdMS_TO_TICKS(2000));
-    instance->bas.from_right();
+    // instance->bas.from_left();
+    // vTaskDelay(pdMS_TO_TICKS(2000));
+    // instance->bas.to_right();
+    // vTaskDelay(pdMS_TO_TICKS(2000));
+    // instance->bas.from_right();
     // vTaskDelay(pdMS_TO_TICKS(2000));
     /*
     while (true)
