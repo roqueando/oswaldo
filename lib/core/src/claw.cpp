@@ -11,9 +11,9 @@ oswaldo::claw::claw(ledc_channel_t ch, ledc_timer_t tmr, int p) : channel(ch), t
         .speed_mode = LEDC_LOW_SPEED_MODE,
         .channel = channel,
         .timer_sel = timer,
-        .duty = 0
-    };
+        .duty = 0};
     ledc_channel_config(&channel_conf);
+    move(100, channel, CLW_TOTAL_ANGLE);
 }
 
 void oswaldo::claw::open()
@@ -31,10 +31,9 @@ void oswaldo::claw::close()
     move(0, channel, CLW_TOTAL_ANGLE);
 }
 
-
-void oswaldo::claw::stepped_open_close_claw(void* params)
+void oswaldo::claw::stepped_open_close_claw(void *params)
 {
-    oswaldo::claw* instance = static_cast<oswaldo::claw*>(params);
+    oswaldo::claw *instance = static_cast<oswaldo::claw *>(params);
 
     while (true)
     {

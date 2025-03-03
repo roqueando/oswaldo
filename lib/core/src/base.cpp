@@ -11,9 +11,9 @@ oswaldo::base::base(ledc_channel_t ch, ledc_timer_t tmr, int p) : channel(ch), t
         .speed_mode = LEDC_LOW_SPEED_MODE,
         .channel = channel,
         .timer_sel = timer,
-        .duty = 0
-    };
+        .duty = 0};
     ledc_channel_config(&channel_conf);
+    move(50, channel, TOTAL_ANGLE);
 }
 
 void oswaldo::base::left()
@@ -31,10 +31,9 @@ void oswaldo::base::right()
     move(100, channel, TOTAL_ANGLE);
 }
 
-
-void oswaldo::base::stepped_left_right_base(void* params)
+void oswaldo::base::stepped_left_right_base(void *params)
 {
-    oswaldo::base* instance = static_cast<oswaldo::base*>(params);
+    oswaldo::base *instance = static_cast<oswaldo::base *>(params);
 
     while (true)
     {
