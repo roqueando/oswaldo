@@ -10,22 +10,28 @@ namespace oswaldo
 {
   class shoulder
   {
-    private:
-      ledc_channel_t channel;
-      ledc_timer_t timer;
-      int pin;
+  private:
+    ledc_channel_t channel;
+    ledc_timer_t timer;
+    int pin;
 
-    public:
-      shoulder(ledc_channel_t ch, ledc_timer_t tmr, int p);
+    static void to_front_task(void *params); // Adicione esta linha
+    static void to_back_task(void *params);  // Adicione esta linha
 
-      void slowly_front();
-      void slowly_back();
-      void front();
-      void back();
-      void half_front();
-      void start_task();
-      static void stepped_front_back_shoulder(void *params);
+  public:
+    shoulder(ledc_channel_t ch, ledc_timer_t tmr, int p);
+
+    void slowly_front();
+    void slowly_back();
+    void front();
+    void back();
+    void half_front();
+    void start_task();
+    static void stepped_front_back_shoulder(void *params);
+
+    void from_front();
+    void from_back();
+    void to_front();
+    void to_back();
   };
 };
-
-

@@ -4,6 +4,8 @@
 #include "freertos/task.h"
 #include "driver/ledc.h"
 
+#define DEFAULT_WAIT pdMS_TO_TICKS(30)
+
 oswaldo::base::base(ledc_channel_t ch, ledc_timer_t tmr, int p) : channel(ch), timer(tmr), pin(p)
 {
     ledc_channel_config_t channel_conf = {
@@ -14,6 +16,42 @@ oswaldo::base::base(ledc_channel_t ch, ledc_timer_t tmr, int p) : channel(ch), t
         .duty = 0};
     ledc_channel_config(&channel_conf);
     move(50, channel, TOTAL_ANGLE);
+}
+
+void oswaldo::base::to_right()
+{
+    for (int i = 50; i <= 100; i++)
+    {
+        move(i, channel, TOTAL_ANGLE);
+        vTaskDelay(DEFAULT_WAIT);
+    }
+}
+
+void oswaldo::base::to_left()
+{
+    for (int i = 50; i >= 0; i--)
+    {
+        move(i, channel, TOTAL_ANGLE);
+        vTaskDelay(DEFAULT_WAIT);
+    }
+}
+
+void oswaldo::base::from_left()
+{
+    for (int i = 0; i <= 50; i++)
+    {
+        move(i, channel, TOTAL_ANGLE);
+        vTaskDelay(DEFAULT_WAIT);
+    }
+}
+
+void oswaldo::base::from_right()
+{
+    for (int i = 100; i >= 50; i--)
+    {
+        move(i, channel, TOTAL_ANGLE);
+        vTaskDelay(DEFAULT_WAIT);
+    }
 }
 
 void oswaldo::base::left()

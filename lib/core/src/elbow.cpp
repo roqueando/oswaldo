@@ -16,6 +16,60 @@ oswaldo::elbow::elbow(ledc_channel_t ch, ledc_timer_t tmr, int p) : channel(ch),
     move(20, channel, ELB_TOTAL_ANGLE);
 }
 
+void oswaldo::elbow::from_up()
+{
+    for (int i = 0; i < 50; i++)
+    {
+        move(i, channel, ELB_TOTAL_ANGLE);
+        vTaskDelay(pdMS_TO_TICKS(50));
+    }
+}
+
+void oswaldo::elbow::from_down()
+{
+    for (int i = 100; i > 50; i--)
+    {
+        move(i, channel, ELB_TOTAL_ANGLE);
+        vTaskDelay(pdMS_TO_TICKS(50));
+    }
+}
+
+void oswaldo::elbow::to_up_task(void *params)
+{
+    oswaldo::elbow *instance = static_cast<oswaldo::elbow *>(params);
+
+    for (int i = 50; i <= 100; i++)
+    {
+        move(i, instance->channel, ELB_TOTAL_ANGLE);
+        vTaskDelay(pdMS_TO_TICKS(50));
+    }
+
+    vTaskDelete(NULL);
+}
+
+void oswaldo::elbow::to_down_task(void *params)
+{
+    oswaldo::elbow *instance = static_cast<oswaldo::elbow *>(params);
+
+    for (int i = 50; i >= 0; i--)
+    {
+        move(i, instance->channel, ELB_TOTAL_ANGLE);
+        vTaskDelay(pdMS_TO_TICKS(50));
+    }
+
+    vTaskDelete(NULL);
+}
+
+void oswaldo::elbow::to_up()
+{
+    xTaskCreate(to_up_task, "To Up Task", 1024, this, 1, NULL);
+}
+
+void oswaldo::elbow::to_down()
+{
+    xTaskCreate(to_down_task, "To Down Task", 1024, this, 1, NULL);
+}
+
 void oswaldo::elbow::slowly_up()
 {
     for (int i = 0; i < 100; i++)
@@ -65,5 +119,5 @@ void oswaldo::elbow::stepped_up_down_elbow(void *params)
 
 void oswaldo::elbow::start_task()
 {
-    xTaskCreate(stepped_up_down_elbow, "Stepped Up Down Claw", 1024, this, 1, NULL);
+    xTaskCreate(stepped_up_down_elbow, "Stepped Up Down Elbow", 1024, this, 1, NULL);
 }

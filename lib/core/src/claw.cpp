@@ -13,7 +13,6 @@ oswaldo::claw::claw(ledc_channel_t ch, ledc_timer_t tmr, int p) : channel(ch), t
         .timer_sel = timer,
         .duty = 0};
     ledc_channel_config(&channel_conf);
-    move(100, channel, CLW_TOTAL_ANGLE);
 }
 
 void oswaldo::claw::open()

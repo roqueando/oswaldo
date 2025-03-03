@@ -10,20 +10,18 @@ namespace oswaldo
 {
   class claw
   {
-    private:
-      ledc_channel_t channel;
-      ledc_timer_t timer;
-      int pin;
+  private:
+    ledc_channel_t channel;
+    ledc_timer_t timer;
+    int pin;
 
-    public:
-      claw(ledc_channel_t ch, ledc_timer_t tmr, int p);
+  public:
+    claw(ledc_channel_t ch, ledc_timer_t tmr, int p);
 
-      void open();
-      void close();
-      void half_open();
-      void start_task();
-      static void stepped_open_close_claw(void *params);
+    void open();
+    void close();
+    void half_open();
+    void start_task();
+    static void stepped_open_close_claw(void *params);
   };
 };
-
-

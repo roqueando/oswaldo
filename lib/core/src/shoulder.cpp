@@ -16,6 +16,60 @@ oswaldo::shoulder::shoulder(ledc_channel_t ch, ledc_timer_t tmr, int p) : channe
     move(50, channel, SHO_TOTAL_ANGLE);
 }
 
+void oswaldo::shoulder::from_front()
+{
+    for (int i = 0; i < 50; i++)
+    {
+        move(i, channel, SHO_TOTAL_ANGLE);
+        vTaskDelay(pdMS_TO_TICKS(50));
+    }
+}
+
+void oswaldo::shoulder::from_back()
+{
+    for (int i = 100; i > 50; i--)
+    {
+        move(i, channel, SHO_TOTAL_ANGLE);
+        vTaskDelay(pdMS_TO_TICKS(50));
+    }
+}
+
+void oswaldo::shoulder::to_front_task(void *params)
+{
+    oswaldo::shoulder *instance = static_cast<oswaldo::shoulder *>(params);
+
+    for (int i = 50; i <= 100; i++)
+    {
+        move(i, instance->channel, SHO_TOTAL_ANGLE);
+        vTaskDelay(pdMS_TO_TICKS(50));
+    }
+
+    vTaskDelete(NULL);
+}
+
+void oswaldo::shoulder::to_back_task(void *params)
+{
+    oswaldo::shoulder *instance = static_cast<oswaldo::shoulder *>(params);
+
+    for (int i = 50; i >= 0; i--)
+    {
+        move(i, instance->channel, SHO_TOTAL_ANGLE);
+        vTaskDelay(pdMS_TO_TICKS(50));
+    }
+
+    vTaskDelete(NULL);
+}
+
+void oswaldo::shoulder::to_front()
+{
+    xTaskCreate(to_front_task, "To Front Task", 1024, this, 1, NULL);
+}
+
+void oswaldo::shoulder::to_back()
+{
+    xTaskCreate(to_back_task, "To Back Task", 1024, this, 1, NULL);
+}
+
 void oswaldo::shoulder::slowly_front()
 {
     for (int i = 0; i < 100; i++)
@@ -65,5 +119,5 @@ void oswaldo::shoulder::stepped_front_back_shoulder(void *params)
 
 void oswaldo::shoulder::start_task()
 {
-    xTaskCreate(stepped_front_back_shoulder, "Stepped Front Back Claw", 1024, this, 1, NULL);
+    xTaskCreate(stepped_front_back_shoulder, "Stepped Front Back Shoulder", 1024, this, 1, NULL);
 }
