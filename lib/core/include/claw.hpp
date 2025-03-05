@@ -3,25 +3,20 @@
 #include <freertos/FreeRTOS.h>
 #include "freertos/task.h"
 #include "driver/ledc.h"
-
-#define CLW_TOTAL_ANGLE 180
+#include "joint.hpp"
 
 namespace oswaldo
 {
-  class claw
+  class claw : protected joint
   {
-  private:
-    ledc_channel_t channel;
-    ledc_timer_t timer;
-    int pin;
 
   public:
-    claw(ledc_channel_t ch, ledc_timer_t tmr, int p);
-
+    claw(ledc_channel_t ch, ledc_timer_t tmr, int p) : joint(ch, tmr, p) {}
     void open();
     void close();
-    void half_open();
-    void start_task();
-    static void stepped_open_close_claw(void *params);
+
+  private:
+    static void task_open(void *params);
+    static void task_close(void *params);
   };
 };
